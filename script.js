@@ -1,16 +1,21 @@
-import { WORDS } from "./words.js";
+import { TARGET_WORDS, ALLOWED_WORDS } from "./words.js";
 
 const NUMBER_OF_GUESSES = 6;
-let guessesRemaining = NUMBER_OF_GUESSES;
-let currentGuess = [];
-let nextLetter = 0;
-let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
-
-console.log(rightGuessString)
+let guessesRemaining;
+let currentGuess;
+let nextLetter;
+let rightGuessString
+let wordIndex = 0
 
 function initBoard() {
+	guessesRemaining = NUMBER_OF_GUESSES;
+	currentGuess = [];
+	nextLetter = 0;
+	rightGuessString = TARGET_WORDS[wordIndex]
     let board = document.getElementById("game-board");
-
+	board.textContent = '';
+	clearKeyboardShading();
+	
     for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
         let row = document.createElement("div")
         row.className = "letter-row"
@@ -23,6 +28,12 @@ function initBoard() {
 
         board.appendChild(row)
     }
+}
+
+function clearKeyboardShading() {
+    for (const elem of document.getElementsByClassName("keyboard-button")) {
+		elem.style.backgroundColor = '';
+	}	
 }
 
 function shadeKeyBoard(letter, color) {
@@ -66,7 +77,7 @@ function checkGuess () {
         return
     }
 
-    if (!WORDS.includes(guessString)) {
+    if (!ALLOWED_WORDS.includes(guessString)) {
         toastr.error("Word not in list!")
         return
     }
@@ -107,17 +118,22 @@ function checkGuess () {
     }
 
     if (guessString === rightGuessString) {
-        toastr.success("You guessed right! Game over!")
+		wordIndex++;
         guessesRemaining = 0
-        return
+		if (wordIndex < TARGET_WORDS.length) {
+			toastr.success("You guessed right! Keep going!");
+			setTimeout(initBoard, 2000);
+		} else {
+			toastr.success("You made it! You should have all the info you need now...");
+        }			
+		return;
     } else {
         guessesRemaining -= 1;
         currentGuess = [];
         nextLetter = 0;
 
         if (guessesRemaining === 0) {
-            toastr.error("You've run out of guesses! Game over!")
-            toastr.info(`The right word was: "${rightGuessString}"`)
+            toastr.error("Uh oh! You've run out of guesses! Reload to try again...!");
         }
     }
 }

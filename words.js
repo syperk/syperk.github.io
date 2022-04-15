@@ -1,4 +1,9 @@
-export const WORDS = [
+export const TARGET_WORDS = [
+  'right',
+  'track'
+];
+
+export const ALLOWED_WORDS = [
     'which',
     'there',
     'their',
