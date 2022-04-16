@@ -124,7 +124,8 @@ function checkGuess () {
 			toastr.success("You guessed right! Keep going!");
 			setTimeout(initBoard, 2000);
 		} else {
-			toastr.success("You made it! You should have all the info you need now...");
+			toastr.success("You made it!");
+			setTimeout(showSuccessMessage, 2000);
         }			
 		return;
     } else {
@@ -151,6 +152,12 @@ function insertLetter (pressedKey) {
     box.classList.add("filled-box")
     currentGuess.push(pressedKey)
     nextLetter += 1
+}
+
+function showSuccessMessage() {
+	document.getElementById("game-board").style.display = 'none';	
+	document.getElementById("keyboard-cont").style.display = 'none';	
+	document.getElementById("success-message").style.display = 'flex';
 }
 
 const animateCSS = (element, animation, prefix = 'animate__') =>

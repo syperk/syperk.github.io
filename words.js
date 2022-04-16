@@ -1,6 +1,8 @@
 export const TARGET_WORDS = [
-  'right',
-  'track'
+  'dance',
+  'round',
+  'under',
+  'music'
 ];
 
 export const ALLOWED_WORDS = [
